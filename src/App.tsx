@@ -3,9 +3,13 @@ import './App.scss';
 import Search from './components/Search/Search';
 
 const App: FC = () => {
+  const getSearchQuery = (searchQuery: string) => {
+    console.log(searchQuery);
+  };
+
   return (
     <>
-      <Search />
+      <Search onButtonClick={getSearchQuery} />
     </>
   );
 };
