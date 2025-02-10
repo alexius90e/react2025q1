@@ -33,11 +33,14 @@ const App: FC = () => {
   const getSearchQuery = async (searchQuery: string) => {
     const url: string = `https://rickandmortyapi.com/api/character/?name=${searchQuery}`;
     const response: Response = await fetch(url);
-    const json: string = await response.json();
-    const responseObj: SearchResponse = JSON.parse(JSON.stringify(json));
-    const results: SearchResponseResultItem[] = responseObj.results;
-    setCaracters(results);
-    console.log(responseObj);
+    if (response.status === 200) {
+      const json: string = await response.json();
+      const responseObj: SearchResponse = JSON.parse(JSON.stringify(json));
+      const results: SearchResponseResultItem[] = responseObj.results;
+      setCaracters(results);
+    } else if (response.status >= 400) {
+      console.log(response);
+    }
   };
 
   return (
