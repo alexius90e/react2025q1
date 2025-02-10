@@ -1,0 +1,31 @@
+.search-result-card {
+  line-height: 150%;
+  color: #d3d67b;
+
+  &__figure {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 24px;
+    padding: 0;
+
+    &-image {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  &__name {
+    margin: 0 0 16px;
+    font-size: 24px;
+    font-weight: 900;
+    line-height: normal;
+    color: #d1dd01;
+  }
+
+  &__location {
+    font-size: 20px;
+    font-weight: 700;
+  }
+}
