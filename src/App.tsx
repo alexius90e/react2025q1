@@ -1,34 +1,12 @@
-import { FC, useState } from 'react';
 import './App.scss';
+import { FC, useState } from 'react';
 import Search from './components/Search/Search';
-
-interface SearchResponseResultItem {
-  created: string;
-  episode: string[];
-  gender: string;
-  id: number;
-  image: string;
-  location: { name: string; url: string };
-  name: string;
-  origin: { name: string; url: string };
-  species: string;
-  status: string;
-  type: string;
-  url: string;
-}
-
-interface SearchResponse {
-  info: {
-    count: number;
-    next: string | null;
-    pages: number;
-    prev: string | null;
-  };
-  results: SearchResponseResultItem[];
-}
+import { SearchCaracter } from './models/search-caracter.interface';
+import { SearchResponse } from './models/search-response.interface';
+import SearchResultCard from './components/SearchResultCard/SearchResultCard';
 
 const App: FC = () => {
-  const [caracters, setCaracters] = useState<SearchResponseResultItem[]>([]);
+  const [caracters, setCaracters] = useState<SearchCaracter[]>([]);
 
   const getSearchQuery = async (searchQuery: string) => {
     const url: string = `https://rickandmortyapi.com/api/character/?name=${searchQuery}`;
@@ -36,7 +14,8 @@ const App: FC = () => {
     if (response.status === 200) {
       const json: string = await response.json();
       const responseObj: SearchResponse = JSON.parse(JSON.stringify(json));
-      const results: SearchResponseResultItem[] = responseObj.results;
+      const results: SearchCaracter[] = responseObj.results;
+      console.log(results);
       setCaracters(results);
     } else if (response.status >= 400) {
       console.log(response);
@@ -57,16 +36,7 @@ const App: FC = () => {
 
       <div className="app__results">
         {caracters.map((caracter) => {
-          return (
-            <div className="app__results-item " key={caracter.id}>
-              <div className="app__results-item-name">{caracter.name}</div>
-              <div className="app__results-item-gender">{caracter.gender}</div>
-              <div className="app__results-item-location">
-                {caracter.location.name}
-              </div>
-              <div className="app__results-item-status">{caracter.status}</div>
-            </div>
-          );
+          return <SearchResultCard key={caracter.id} caracter={caracter} />;
         })}
       </div>
     </main>
